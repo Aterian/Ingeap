@@ -1,0 +1,365 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+html,
+body,
+[class*="css"] {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+/* ========================================================
+   1. FONDO GENERAL (GRIS CLARO DESCANSO VISUAL)
+   ======================================================== */
+.stApp,
+[data-testid="stAppViewContainer"] {
+  background-color: #f3f4f6 !important;
+}
+
+/* Ocultar elementos predeterminados de Streamlit */
+header,
+#MainMenu,
+footer {
+  visibility: hidden;
+}
+[data-testid="stHeader"] {
+  background-color: transparent !important;
+}
+[data-testid="collapsedControl"] {
+  display: none !important;
+}
+
+/* ========================================================
+   2. BOTONES Y TARJETAS
+   ======================================================== */
+[data-testid="baseButton-primary"] {
+  background-color: #cc3333 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+[data-testid="baseButton-primary"]:hover {
+  background-color: #a32929 !important;
+}
+[data-testid="baseButton-secondary"] {
+  background-color: transparent !important;
+  color: #999999 !important;
+  border: 1px solid #999999 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.login-container {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eeeeee;
+  margin-top: 2rem;
+}
+
+/* Centrado automático de imágenes */
+[data-testid="stImage"] {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+
+/* ========================================================
+   3. BARRA LATERAL (SIDEBAR) Y LAYOUT
+   ======================================================== */
+[data-testid="stSidebar"] {
+  background-color: #ffffff !important;
+  border-right: 1px solid #eaeaea;
+  min-width: 280px !important;
+  max-width: 280px !important;
+}
+
+.block-container {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  padding-top: 1rem !important;
+  padding-bottom: 6rem !important;
+  max-width: 100% !important;
+}
+
+.sidebar-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.5px;
+  margin-bottom: 25px;
+}
+.sidebar-section {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.project-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+}
+.project-item.active {
+  background-color: #f3f4f6;
+  color: #cc3333;
+  font-weight: 600;
+}
+.project-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+.project-item.active .dot {
+  background-color: #cc3333;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+}
+.member-item img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+.status-dot.online {
+  background-color: #4caf50;
+}
+.status-dot.offline {
+  background-color: transparent;
+  border: 2px solid #999;
+}
+
+/* ========================================================
+   4. ENCABEZADO DEL CHAT (CORREGIDO ALINEACIÓN DERECHA)
+   ======================================================== */
+.chat-header {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding-bottom: 15px !important;
+  border-bottom: 2px solid #b0b0b0 !important; /* 👈 Línea más oscura (gris medio) y ligeramente más gruesa */
+  margin-bottom: 20px !important;
+}
+
+.chat-header-left {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.chat-header-title {
+  color: #444444 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  padding: 6px 14px !important;
+  border: 1.5px solid #cc3333 !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  display: inline-block !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.chat-header-subtitle {
+  color: #888888 !important;
+  font-size: 12px !important;
+  margin-top: 6px !important;
+}
+
+.header-profile {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-left: auto !important; /* Empuja el perfil a la extrema derecha */
+}
+
+.header-profile img {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+}
+
+.header-profile-info {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: right !important; /* Texto alineado hacia el avatar */
+}
+
+.header-profile-name {
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: #333333 !important;
+}
+
+.header-profile-role {
+  font-size: 12px !important;
+  color: #888888 !important;
+}
+
+/* ========================================================
+   5. BURBUJAS DE CHAT
+   ======================================================== */
+[data-testid="stChatMessage"] {
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin-bottom: 20px !important;
+}
+[data-testid="stChatMessage"] > div:first-child {
+  display: none !important;
+}
+[data-testid="stChatMessageContent"] {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.chat-msg-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  max-width: 90%;
+  margin-bottom: 15px;
+}
+.chat-msg-container.own {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chat-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+  margin-left: 10px;
+}
+.chat-meta.own {
+  flex-direction: row-reverse;
+  margin-left: 0;
+  margin-right: 10px;
+}
+.chat-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+.chat-time {
+  font-size: 12px;
+  color: #999;
+}
+.chat-bubble {
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 0 16px 16px 16px;
+  padding: 12px 16px;
+  color: #444;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  line-height: 1.5;
+}
+.chat-bubble.own {
+  background-color: #cc3333;
+  color: white;
+  border: none;
+  border-radius: 16px 0 16px 16px;
+}
+
+/* ========================================================
+   6. CAMPO DE TEXTO INFERIOR
+   ======================================================== */
+[data-testid="stBottom"],
+[data-testid="stBottom"] *,
+[data-testid="stBottomBlockContainer"],
+.stChatInputContainer {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stBottom"] {
+    padding-bottom: 1.5rem !important;
+}
+
+[data-testid="stChatInput"] {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+[data-testid="stChatInput"] > div {
+    background-color: #262b36 !important;
+    border: 1px solid #3a3f4d !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    padding: 4px 12px !important;
+}
+
+[data-testid="stChatInput"] textarea {
+    color: #ffffff !important;
+    background-color: transparent !important;
+}
+
+[data-testid="stChatInput"] button {
+    background-color: #cc3333 !important;
+    color: white !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
+    height: 38px !important;
+    width: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 0px !important;
+}
+
+[data-testid="stChatInput"] button svg {
+    fill: white !important;
+    color: white !important;
+}
+
+/* ========================================================
+   7. RESPONSIVE DESIGN
+   ======================================================== */
+@media (max-width: 768px) {
+  [data-testid="stSidebar"] {
+    margin-left: 0 !important;
+  }
+  .block-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .chat-msg-container {
+    max-width: 100%;
+  }
+}
