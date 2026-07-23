@@ -63,26 +63,47 @@ def api_auto_login(email):
     except Exception as e:
         return {"success": False, "message": f"Error de petición en Python: {str(e)}"}
 
+def get_url_param(param_name):
+    """Obtiene un parámetro de la URL de forma compatible con cualquier versión de Streamlit."""
+    try:
+        # Método moderno (Streamlit >= 1.30)
+        if hasattr(st, "query_params"):
+            val = st.query_params.get(param_name)
+            if isinstance(val, list):
+                return val[0] if val else None
+            return val
+        # Método legado (Streamlit < 1.30)
+        elif hasattr(st, "experimental_get_query_params"):
+            params = st.experimental_get_query_params()
+            val = params.get(param_name)
+            if isinstance(val, list):
+                return val[0] if val else None
+            return val
+    except Exception:
+        pass
+    return None
+
+
 def process_url_auto_login():
+    email_param = get_url_param("email")
+    proyecto_param = get_url_param("proyecto")
+
     # 1. VERIFICAR AUTO-LOGIN
-    if not st.session_state.logged_in:
-        email_param = st.query_params.get("email")
-        if email_param:
-            with st.spinner("Autenticando desde AppSheet..."):
-                data = api_auto_login(email_param)
-                if data.get("success"):
-                    st.session_state.logged_in = True
-                    st.session_state.session_email = email_param
-                    st.session_state.session_nombre = data.get("nombre")
-                    st.session_state.session_area = data.get("area")
-                else:
-                    # 🔍 ESTO MOSTRARÁ EL ERROR EXACTO ARRIBA DE LA PANTALLA
-                    st.error(f"⚠️ Error de Auto-Login para '{email_param}': {data}")
+    if not st.session_state.logged_in and email_param:
+        with st.spinner(f"Autenticando a {email_param}..."):
+            data = api_auto_login(email_param)
+            if data.get("success"):
+                st.session_state.logged_in = True
+                st.session_state.session_email = email_param
+                st.session_state.session_nombre = data.get("nombre", "Usuario")
+                st.session_state.session_area = data.get("area", "")
+            else:
+                # MUESTRA EL ERROR SI LA API DE GOOGLE RECHAZA EL EMAIL
+                st.error(f"⚠️ Error de Auto-Login para '{email_param}': {data.get('message', data)}")
 
     # 2. REDIRECCIÓN DIRECTA A PROYECTO
-    if st.session_state.logged_in:
-        proyecto_param = st.query_params.get("proyecto")
-        if proyecto_param and st.session_state.current_project != proyecto_param:
+    if st.session_state.logged_in and proyecto_param:
+        if st.session_state.current_project != proyecto_param:
             st.session_state.current_project = proyecto_param
             st.session_state.sidebar_tab = "mensajes"
 
@@ -123,6 +144,9 @@ def api_get_users():
 # PANTALLA 1: LOGIN
 # ========================================================
 def show_login():
+    email_detectado = get_url_param("email")
+    if email_detectado and not st.session_state.logged_in:
+        st.info(f"ℹ️ Email detectado en URL: `{email_detectado}`. Verificando en base de datos...")
     col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
         # 1. Logo centrado ARRIBA DE TODO
