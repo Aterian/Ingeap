@@ -14,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyZ_bHS0tmquK_YZ1r3MI1ofvKhxR2P8vuD-FebuejbwU-QEq4yM2nMnAt3azC3b_-7jA/exec"
+WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx7rneGn363e7JOml8a_s89lDbtdcdbCo6d05Nvq0CgBoydKX3YfH-JolWHiNlrQ80A8Q/exec"
 
 # ========================================================
 # DISEÑO UI/UX (CSS PERSONALIZADO)
