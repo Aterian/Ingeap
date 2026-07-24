@@ -31,12 +31,18 @@ footer {
 [data-testid="stSidebarCollapseButton"] {
   visibility: visible !important;
   display: flex !important;
-  color: #cc3333 !important;
-  background-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: #cc3333 !important;
   border-radius: 8px !important;
-  border: 1px solid #e0e0e0 !important;
+  border: 1px solid #cc3333 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
   margin: 10px !important;
+}
+
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapseButton"] svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
 }
 
 /* ========================================================
