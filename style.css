@@ -52,7 +52,7 @@ footer {
 
 [data-testid="collapsedControl"] svg,
 [data-testid="stSidebarCollapseButton"] svg {
-  fill: #ffffff !important;
+  fill: #cc3333 !important;
   color: #cc3333 !important;
 }
 
