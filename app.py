@@ -420,20 +420,13 @@ def main():
         st.markdown("""
             <style>
                 [data-testid="stSidebar"] { display: none !important; }
+                [data-testid="collapsedControl"] { display: none !important; }
+                [data-testid="stSidebarCollapseButton"] { display: none !important; }
             </style>
         """, unsafe_allow_html=True)
         show_login()
     else:
-        # Una vez logueado FORZAMOS a que la barra lateral sea visible
-        st.markdown("""
-            <style>
-                [data-testid="stSidebar"] { 
-                    display: block !important; 
-                    visibility: visible !important; 
-                }
-            </style>
-        """, unsafe_allow_html=True)
-        
+
         # Renderizar la barra lateral
         show_sidebar()
         
