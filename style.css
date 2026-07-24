@@ -46,14 +46,14 @@ footer {
 [data-testid="collapsedControl"] button,
 [data-testid="stSidebarCollapseButton"] button {
   background-color: transparent !important;
-  color: #ffffff !important;
+  color: #cc3333 !important;
   border: none !important;
 }
 
 [data-testid="collapsedControl"] svg,
 [data-testid="stSidebarCollapseButton"] svg {
   fill: #ffffff !important;
-  color: #ffffff !important;
+  color: #cc3333 !important;
 }
 
 /* ========================================================
