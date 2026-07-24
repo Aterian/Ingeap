@@ -151,7 +151,7 @@ def show_login():
     with col2:
         sub_c1, sub_c2, sub_c3 = st.columns([1, 1.5, 1])
         with sub_c2:
-            st.image("assets/Logo_Ingeap1.png", use_container_width=True)
+            st.image("assets/Logo_Ingeap1.png", width='stretch')
             
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("<h2 style='text-align: center; color: #333333; margin-top:0;'>Inicio de Sesión</h2>", unsafe_allow_html=True)
@@ -162,7 +162,7 @@ def show_login():
         clave = st.text_input("Clave", type="password", placeholder="••••••••")
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if st.button("Ingresar", type="primary", use_container_width=True):
+        if st.button("Ingresar", type="primary", width='stretch'):
             if not email or not clave:
                 st.error("Completar todos los campos")
             else:
@@ -186,7 +186,7 @@ def show_project_selection():
     with col2:
         sub_c1, sub_c2, sub_c3 = st.columns([1, 1.5, 1])
         with sub_c2:
-            st.image("assets/Logo_Ingeap1.png", use_container_width=True)
+            st.image("assets/Logo_Ingeap1.png", width='stretch')
             
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("<h2 style='text-align: center; color: #333333; margin-top:0;'>Selección de Proyecto</h2>", unsafe_allow_html=True)
@@ -209,7 +209,7 @@ def show_project_selection():
         selected_project = st.selectbox("Proyecto:", options=proyectos_unicos)
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if st.button("Abrir Chat", type="primary", use_container_width=True):
+        if st.button("Abrir Chat", type="primary", width='stretch'):
             if selected_project and selected_project != "No hay proyectos activos en esta área":
                 st.session_state.current_project = selected_project
                 st.session_state.session_area = selected_area
