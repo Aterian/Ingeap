@@ -44,7 +44,7 @@ footer {
    ======================================================== */
 [data-testid="baseButton-primary"] {
   background-color: #cc3333 !important;
-  color: white !important;
+  color:  black !important;
   border-radius: 8px !important;
   border: none !important;
   font-weight: 600 !important;
