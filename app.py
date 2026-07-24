@@ -5,7 +5,7 @@ from datetime import datetime
 import urllib.parse
 
 # ========================================================
-# CONFIGURACIÓN
+# CONFIGURACIÓN DE PÁGINA
 # ========================================================
 st.set_page_config(
     page_title="Chat de Proyecto",
@@ -19,7 +19,7 @@ WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw_7gj4gU5WTruy0HqYs7RUgj
 # ========================================================
 # DISEÑO UI/UX (CSS PERSONALIZADO)
 # ========================================================
-def inject_custom_css(logged_in):
+def inject_custom_css():
     try:
         with open("style.css", "r", encoding="utf-8") as f:
             css_content = f.read()
@@ -47,16 +47,15 @@ def init_session_state():
     if 'auto_login_error' not in st.session_state:
         st.session_state.auto_login_error = ""
 
-
 # ========================================================
 # FUNCIONES API & UTILIDADES URL
 # ========================================================
 def api_login(email, clave):
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "login", "email": email, "clave": clave})
+        res = requests.get(WEBHOOK_URL, params={"action": "login", "email": email, "clave": clave}, timeout=10)
         return res.json()
     except Exception:
-        return {"success": False, "message": "Error de conexión."}
+        return {"success": False, "message": "Error de conexión con el servidor."}
     
 def api_auto_login(email):
     try:
@@ -66,7 +65,7 @@ def api_auto_login(email):
         return {"success": False, "message": f"Error de conexión API: {str(e)}"}
 
 def get_url_param(param_name):
-    """Obtiene un parámetro de la URL de forma compatible con cualquier versión de Streamlit."""
+    """Obtiene un parámetro de la URL de forma compatible."""
     try:
         if hasattr(st, "query_params"):
             val = st.query_params.get(param_name)
@@ -111,7 +110,7 @@ def process_url_auto_login():
 @st.cache_data(ttl=300, show_spinner=False)
 def api_get_projects(area):
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_projects", "area": area})
+        res = requests.get(WEBHOOK_URL, params={"action": "get_projects", "area": area}, timeout=10)
         data = res.json()
         return data.get("projects", [])
     except Exception:
@@ -120,7 +119,7 @@ def api_get_projects(area):
 @st.cache_data(ttl=10, show_spinner=False)
 def api_get_chat(project_id):
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_chat", "id_proyecto": project_id})
+        res = requests.get(WEBHOOK_URL, params={"action": "get_chat", "id_proyecto": project_id}, timeout=10)
         data = res.json()
         return data.get("messages", [])
     except Exception:
@@ -128,14 +127,14 @@ def api_get_chat(project_id):
 
 def api_post_message(payload):
     try:
-        requests.post(WEBHOOK_URL, json=payload)
+        requests.post(WEBHOOK_URL, json=payload, timeout=10)
     except Exception:
         pass
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def api_get_users():
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_users"})
+        res = requests.get(WEBHOOK_URL, params={"action": "get_users"}, timeout=10)
         data = res.json()
         return data.get("users", [])
     except Exception:
@@ -150,23 +149,17 @@ def show_login():
 
     col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
-        # Logo centrado
         sub_c1, sub_c2, sub_c3 = st.columns([1, 1.5, 1])
         with sub_c2:
             st.image("assets/Logo_Ingeap1.png", use_container_width=True)
             
         st.markdown("<br>", unsafe_allow_html=True)
-        
-        # Título
         st.markdown("<h2 style='text-align: center; color: #333333; margin-top:0;'>Inicio de Sesión</h2>", unsafe_allow_html=True)
         st.markdown("<p style='text-align: center; color: #888888; font-size:14px;'>Ingresa tus credenciales corporativas</p>", unsafe_allow_html=True)
-        
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Formulario
         email = st.text_input("Email", placeholder="tu@email.com")
         clave = st.text_input("Clave", type="password", placeholder="••••••••")
-        
         st.markdown("<br>", unsafe_allow_html=True)
         
         if st.button("Ingresar", type="primary", use_container_width=True):
@@ -184,7 +177,7 @@ def show_login():
                         st.rerun()
                     else:
                         st.error(data.get("message", "Error de credenciales"))
-                        
+
 # ========================================================
 # PANTALLA 2: SELECCIÓN DE PROYECTO
 # ========================================================
@@ -196,7 +189,6 @@ def show_project_selection():
             st.image("assets/Logo_Ingeap1.png", use_container_width=True)
             
         st.markdown("<br>", unsafe_allow_html=True)
-        
         st.markdown("<h2 style='text-align: center; color: #333333; margin-top:0;'>Selección de Proyecto</h2>", unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
@@ -215,7 +207,6 @@ def show_project_selection():
             proyectos_unicos = ["No hay proyectos activos en esta área"]
             
         selected_project = st.selectbox("Proyecto:", options=proyectos_unicos)
-        
         st.markdown("<br>", unsafe_allow_html=True)
         
         if st.button("Abrir Chat", type="primary", use_container_width=True):
@@ -223,8 +214,8 @@ def show_project_selection():
                 st.session_state.current_project = selected_project
                 st.session_state.session_area = selected_area
                 st.rerun()
-                
-# Fragmento que se ejecuta automáticamente para actualización en tiempo real
+
+# Fragmento para actualización en tiempo real de los mensajes
 @st.fragment(run_every=5)
 def render_live_messages(project_id):
     messages = api_get_chat(project_id)
@@ -238,12 +229,7 @@ def render_live_messages(project_id):
         fecha_str = msg.get('fecha', '')
         hora_str = msg.get('hora', '')
         
-        # Combinar fecha y hora
-        if fecha_str and hora_str:
-            full_time = f"{fecha_str} {hora_str}"
-        else:
-            full_time = fecha_str or hora_str or ""
-
+        full_time = f"{fecha_str} {hora_str}".strip() if (fecha_str or hora_str) else ""
         text = msg.get('mensaje', '').replace('\n', '<br>')
         avatar_url = f"https://ui-avatars.com/api/?name={urllib.parse.quote(user_name)}&background=random&color=fff&size=100"
         
@@ -268,14 +254,13 @@ def render_live_messages(project_id):
             </div>
         """, unsafe_allow_html=True)
 
-
 # ========================================================
 # PANTALLA 3: CHAT DE PROYECTO
 # ========================================================
 def show_chat():
     project_id = st.session_state.current_project
-    
     my_avatar = f"https://ui-avatars.com/api/?name={urllib.parse.quote(st.session_state.session_nombre)}&background=random&color=fff&size=100"
+    
     st.markdown(f"""
         <div class="chat-header">
             <div class="chat-header-left">
@@ -317,9 +302,8 @@ def show_chat():
         api_get_chat.clear(project_id)
         st.rerun()
 
-
 # ========================================================
-# BARRA LATERAL (SIDEBAR) - VERSIÓN BLINDADA
+# BARRA LATERAL (SIDEBAR) - BLINDADA
 # ========================================================
 def show_sidebar():
     with st.sidebar:
@@ -351,8 +335,7 @@ def show_sidebar():
             st.markdown('<div class="sidebar-title">MIEMBROS DEL EQUIPO</div>', unsafe_allow_html=True)
             
             try:
-                with st.spinner("..."):
-                    users = api_get_users() or []
+                users = api_get_users() or []
             except Exception as e:
                 users = []
                 st.caption(f"Error al cargar usuarios: {e}")
@@ -383,9 +366,8 @@ def show_sidebar():
             user_area = st.session_state.get("session_area", "")
             
             try:
-                with st.spinner("..."):
-                    proyectos_brutos = api_get_projects(user_area) or []
-                    proyectos = list(dict.fromkeys(proyectos_brutos))[:5] if proyectos_brutos else []
+                proyectos_brutos = api_get_projects(user_area) or []
+                proyectos = list(dict.fromkeys(proyectos_brutos))[:5] if proyectos_brutos else []
             except Exception as e:
                 proyectos = []
                 st.caption(f"Error al cargar proyectos: {e}")
@@ -394,16 +376,18 @@ def show_sidebar():
                  st.markdown("<div style='font-size:12px; color:gray; padding:10px;'>No hay proyectos activos</div>", unsafe_allow_html=True)
                 
             for idx, p in enumerate(proyectos):
-                is_active = "active" if p == st.session_state.get("current_project") else ""
+                is_active = (p == st.session_state.get("current_project"))
+                active_class = "active" if is_active else ""
+                
                 st.markdown(f"""
-                    <div class="project-item {is_active}">
+                    <div class="project-item {active_class}">
                         {p}
                         <div class="dot"></div>
                     </div>
                 """, unsafe_allow_html=True)
                 
                 if not is_active:
-                    if st.button("Cambiar", key=f"btn_{p}_{idx}", type="secondary", use_container_width=True):
+                    if st.button("Cambiar", key=f"btn_side_{p}_{idx}", type="secondary", use_container_width=True):
                         st.session_state.current_project = p
                         st.rerun()
         
@@ -422,21 +406,38 @@ def show_sidebar():
                 st.query_params.clear()
             st.rerun()
 
-
 # ========================================================
 # INICIO DE LA APP
 # ========================================================
 def main():
     init_session_state()
-    inject_custom_css(st.session_state.logged_in)
-    
-    # Procesar auto-login si se accede mediante URL con parámetros
+    inject_custom_css()
     process_url_auto_login()
     
+    # Manejo de visibilidad del sidebar según el estado de inicio de sesión
     if not st.session_state.logged_in:
+        # En pantalla de login ocultamos la barra
+        st.markdown("""
+            <style>
+                [data-testid="stSidebar"] { display: none !important; }
+            </style>
+        """, unsafe_allow_html=True)
         show_login()
     else:
+        # Una vez logueado FORZAMOS a que la barra lateral sea visible
+        st.markdown("""
+            <style>
+                [data-testid="stSidebar"] { 
+                    display: block !important; 
+                    visibility: visible !important; 
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        
+        # Renderizar la barra lateral
         show_sidebar()
+        
+        # Renderizar la vista principal
         if not st.session_state.current_project:
             show_project_selection()
         else:
