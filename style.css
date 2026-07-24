@@ -7,24 +7,37 @@ body,
 }
 
 /* ========================================================
-   1. FONDO GENERAL (GRIS CLARO DESCANSO VISUAL)
+   1. FONDO GENERAL Y CABECERA STREAMLIT
    ======================================================== */
 .stApp,
 [data-testid="stAppViewContainer"] {
   background-color: #f3f4f6 !important;
 }
 
-/* Ocultar elementos predeterminados de Streamlit */
-header,
+/* Ocultar solo menú predeterminado y footer */
 #MainMenu,
 footer {
-  visibility: hidden;
-}
-[data-testid="stHeader"] {
-  background-color: transparent !important;
+  visibility: hidden !important;
 }
 
-/* ❌ SE ELIMINÓ EL BLOQUEO AL COLLAPSED CONTROL PARA PERMITIR ABRIR LA BARRA ❌ */
+/* Mantener transparente el header para ver el botón '>' de la barra lateral */
+[data-testid="stHeader"] {
+  background-color: transparent !important;
+  z-index: 100 !important;
+}
+
+/* HACER VISIBLE Y DESTACAR EL BOTÓN '>' PARA EXPANDIR LA BARRA LATERAL */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"] {
+  visibility: visible !important;
+  display: flex !important;
+  color: #cc3333 !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  margin: 10px !important;
+}
 
 /* ========================================================
    2. BOTONES Y TARJETAS
@@ -56,7 +69,6 @@ footer {
   margin-top: 2rem;
 }
 
-/* Centrado automático de imágenes */
 [data-testid="stImage"] {
   display: flex !important;
   justify-content: center !important;
@@ -299,52 +311,52 @@ footer {
 [data-testid="stBottom"] *,
 [data-testid="stBottomBlockContainer"],
 .stChatInputContainer {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stBottom"] {
-  padding-bottom: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
 }
 
 [data-testid="stChatInput"] {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 [data-testid="stChatInput"] > div {
-  background-color: #262b36 !important;
-  border: 1px solid #3a3f4d !important;
-  border-radius: 16px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-  padding: 4px 12px !important;
+    background-color: #262b36 !important;
+    border: 1px solid #3a3f4d !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    padding: 4px 12px !important;
 }
 
 [data-testid="stChatInput"] textarea {
-  color: #ffffff !important;
-  background-color: transparent !important;
+    color: #ffffff !important;
+    background-color: transparent !important;
 }
 
 [data-testid="stChatInput"] button {
-  background-color: #cc3333 !important;
-  color: white !important;
-  border-radius: 50% !important;
-  padding: 8px !important;
-  height: 38px !important;
-  width: 38px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-top: 0px !important;
+    background-color: #cc3333 !important;
+    color: white !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
+    height: 38px !important;
+    width: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 0px !important;
 }
 
 [data-testid="stChatInput"] button svg {
-  fill: white !important;
-  color: white !important;
+    fill: white !important;
+    color: white !important;
 }
 
 /* ========================================================
