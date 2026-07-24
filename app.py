@@ -319,10 +319,11 @@ def show_chat():
 
 
 # ========================================================
-# BARRA LATERAL (SIDEBAR)
+# BARRA LATERAL (SIDEBAR) - VERSIÓN BLINDADA
 # ========================================================
 def show_sidebar():
     with st.sidebar:
+        # 1. BOTÓN VOLVER
         if st.button("🏠 Volver al Menú", type="primary", use_container_width=True):
             st.session_state.current_project = ""
             st.session_state.sidebar_tab = "mensajes"
@@ -330,31 +331,38 @@ def show_sidebar():
             
         st.markdown("<br>", unsafe_allow_html=True)
         
+        # 2. PESTAÑAS
         col_t1, col_t2 = st.columns(2)
         with col_t1:
-            btn_type_m = "primary" if st.session_state.sidebar_tab == "mensajes" else "secondary"
+            btn_type_m = "primary" if st.session_state.get("sidebar_tab") == "mensajes" else "secondary"
             if st.button("💬 Chat", type=btn_type_m, use_container_width=True):
                 st.session_state.sidebar_tab = "mensajes"
                 st.rerun()
         with col_t2:
-            btn_type_u = "primary" if st.session_state.sidebar_tab == "usuarios" else "secondary"
+            btn_type_u = "primary" if st.session_state.get("sidebar_tab") == "usuarios" else "secondary"
             if st.button("👥 Equipo", type=btn_type_u, use_container_width=True):
                 st.session_state.sidebar_tab = "usuarios"
                 st.rerun()
 
         st.markdown("<hr>", unsafe_allow_html=True)
         
-        if st.session_state.sidebar_tab == "usuarios":
+        # 3. PESTAÑA USUARIOS
+        if st.session_state.get("sidebar_tab") == "usuarios":
             st.markdown('<div class="sidebar-title">MIEMBROS DEL EQUIPO</div>', unsafe_allow_html=True)
-            with st.spinner("..."):
-                users = api_get_users()
+            
+            try:
+                with st.spinner("..."):
+                    users = api_get_users() or []
+            except Exception as e:
+                users = []
+                st.caption(f"Error al cargar usuarios: {e}")
                 
             if not users:
                 st.markdown("<div style='font-size:12px; color:gray; padding:10px;'>No hay usuarios registrados</div>", unsafe_allow_html=True)
                 
             for u_name in users:
-                avatar_url = f"https://ui-avatars.com/api/?name={urllib.parse.quote(u_name)}&background=random&color=fff&size=100"
-                is_me = (u_name == st.session_state.session_nombre)
+                avatar_url = f"https://ui-avatars.com/api/?name={urllib.parse.quote(str(u_name))}&background=random&color=fff&size=100"
+                is_me = (u_name == st.session_state.get("session_nombre", ""))
                 
                 status_text = ' (Tú)' if is_me else ''
                 status_class = 'online' if is_me else 'offline'
@@ -367,20 +375,26 @@ def show_sidebar():
                     </div>
                 """, unsafe_allow_html=True)
                 
+        # 4. PESTAÑA PROYECTOS
         else:
             st.markdown('<div class="sidebar-title">INTERNO CHAT</div>', unsafe_allow_html=True)
             st.markdown('<div class="sidebar-section">ÚLTIMOS PROYECTOS</div>', unsafe_allow_html=True)
             
-            user_area = st.session_state.session_area
-            with st.spinner("..."):
-                proyectos_brutos = api_get_projects(user_area)
-                proyectos = list(dict.fromkeys(proyectos_brutos))[:5] if proyectos_brutos else []
+            user_area = st.session_state.get("session_area", "")
+            
+            try:
+                with st.spinner("..."):
+                    proyectos_brutos = api_get_projects(user_area) or []
+                    proyectos = list(dict.fromkeys(proyectos_brutos))[:5] if proyectos_brutos else []
+            except Exception as e:
+                proyectos = []
+                st.caption(f"Error al cargar proyectos: {e}")
                 
             if not proyectos:
                  st.markdown("<div style='font-size:12px; color:gray; padding:10px;'>No hay proyectos activos</div>", unsafe_allow_html=True)
                 
             for idx, p in enumerate(proyectos):
-                is_active = "active" if p == st.session_state.current_project else ""
+                is_active = "active" if p == st.session_state.get("current_project") else ""
                 st.markdown(f"""
                     <div class="project-item {is_active}">
                         {p}
@@ -395,6 +409,7 @@ def show_sidebar():
         
         st.markdown("<br><hr>", unsafe_allow_html=True)
         
+        # 5. CERRAR SESIÓN
         if st.button("Cerrar Sesión", type="secondary", use_container_width=True):
             st.session_state.logged_in = False
             st.session_state.session_email = ""
