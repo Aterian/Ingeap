@@ -23,9 +23,8 @@ footer {
 [data-testid="stHeader"] {
   background-color: transparent !important;
 }
-[data-testid="collapsedControl"] {
-  display: none !important;
-}
+
+/* ❌ SE ELIMINÓ EL BLOQUEO AL COLLAPSED CONTROL PARA PERMITIR ABRIR LA BARRA ❌ */
 
 /* ========================================================
    2. BOTONES Y TARJETAS
@@ -152,7 +151,7 @@ footer {
 }
 
 /* ========================================================
-   4. ENCABEZADO DEL CHAT (CORREGIDO ALINEACIÓN DERECHA)
+   4. ENCABEZADO DEL CHAT
    ======================================================== */
 .chat-header {
   display: flex !important;
@@ -161,7 +160,7 @@ footer {
   align-items: center !important;
   width: 100% !important;
   padding-bottom: 15px !important;
-  border-bottom: 2px solid #b0b0b0 !important; /* 👈 Línea más oscura (gris medio) y ligeramente más gruesa */
+  border-bottom: 2px solid #b0b0b0 !important;
   margin-bottom: 20px !important;
 }
 
@@ -195,7 +194,7 @@ footer {
   flex-direction: row !important;
   align-items: center !important;
   gap: 12px !important;
-  margin-left: auto !important; /* Empuja el perfil a la extrema derecha */
+  margin-left: auto !important;
 }
 
 .header-profile img {
@@ -207,7 +206,7 @@ footer {
 .header-profile-info {
   display: flex !important;
   flex-direction: column !important;
-  text-align: right !important; /* Texto alineado hacia el avatar */
+  text-align: right !important;
 }
 
 .header-profile-name {
@@ -300,61 +299,58 @@ footer {
 [data-testid="stBottom"] *,
 [data-testid="stBottomBlockContainer"],
 .stChatInputContainer {
-    background-color: transparent !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 [data-testid="stBottom"] {
-    padding-bottom: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
 }
 
 [data-testid="stChatInput"] {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 [data-testid="stChatInput"] > div {
-    background-color: #262b36 !important;
-    border: 1px solid #3a3f4d !important;
-    border-radius: 16px !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-    padding: 4px 12px !important;
+  background-color: #262b36 !important;
+  border: 1px solid #3a3f4d !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  padding: 4px 12px !important;
 }
 
 [data-testid="stChatInput"] textarea {
-    color: #ffffff !important;
-    background-color: transparent !important;
+  color: #ffffff !important;
+  background-color: transparent !important;
 }
 
 [data-testid="stChatInput"] button {
-    background-color: #cc3333 !important;
-    color: white !important;
-    border-radius: 50% !important;
-    padding: 8px !important;
-    height: 38px !important;
-    width: 38px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-top: 0px !important;
+  background-color: #cc3333 !important;
+  color: white !important;
+  border-radius: 50% !important;
+  padding: 8px !important;
+  height: 38px !important;
+  width: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 0px !important;
 }
 
 [data-testid="stChatInput"] button svg {
-    fill: white !important;
-    color: white !important;
+  fill: white !important;
+  color: white !important;
 }
 
 /* ========================================================
    7. RESPONSIVE DESIGN
    ======================================================== */
 @media (max-width: 768px) {
-  [data-testid="stSidebar"] {
-    margin-left: 0 !important;
-  }
   .block-container {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
