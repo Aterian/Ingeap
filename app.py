@@ -308,7 +308,7 @@ def show_chat():
 def show_sidebar():
     with st.sidebar:
         # 1. BOTÓN VOLVER
-        if st.button("🏠 Volver al Menú", type="primary", use_container_width=True):
+        if st.button("🏠 Volver al Menú", type="primary", width='stretch'):
             st.session_state.current_project = ""
             st.session_state.sidebar_tab = "mensajes"
             st.rerun()
@@ -319,12 +319,12 @@ def show_sidebar():
         col_t1, col_t2 = st.columns(2)
         with col_t1:
             btn_type_m = "primary" if st.session_state.get("sidebar_tab") == "mensajes" else "secondary"
-            if st.button("💬 Chat", type=btn_type_m, use_container_width=True):
+            if st.button("💬 Chat", type=btn_type_m, width='stretch'):
                 st.session_state.sidebar_tab = "mensajes"
                 st.rerun()
         with col_t2:
             btn_type_u = "primary" if st.session_state.get("sidebar_tab") == "usuarios" else "secondary"
-            if st.button("👥 Equipo", type=btn_type_u, use_container_width=True):
+            if st.button("👥 Equipo", type=btn_type_u, width='stretch'):
                 st.session_state.sidebar_tab = "usuarios"
                 st.rerun()
 
@@ -387,14 +387,14 @@ def show_sidebar():
                 """, unsafe_allow_html=True)
                 
                 if not is_active:
-                    if st.button("Cambiar", key=f"btn_side_{p}_{idx}", type="secondary", use_container_width=True):
+                    if st.button("Cambiar", key=f"btn_side_{p}_{idx}", type="secondary", width='stretch'):
                         st.session_state.current_project = p
                         st.rerun()
         
         st.markdown("<br><hr>", unsafe_allow_html=True)
         
         # 5. CERRAR SESIÓN
-        if st.button("Cerrar Sesión", type="secondary", use_container_width=True):
+        if st.button("Cerrar Sesión", type="secondary", width='stretch'):
             st.session_state.logged_in = False
             st.session_state.session_email = ""
             st.session_state.session_nombre = ""
