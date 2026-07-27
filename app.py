@@ -1,7 +1,7 @@
 # pyrefly: ignore [missing-import]
 import streamlit as st
 import requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import urllib.parse
 
 # ========================================================
@@ -14,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw_7gj4gU5WTruy0HqYs7RUgj75aD4rpj5g3osX_NGg31uF58QhaUls8W6PE_YaX1gE1w/exec"
+WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxzsDC7wcpbQvZzS0uaI-Lx-uDiIKUAEMYssmIJ6aanDaRxKz7znklKICmR-TND-tDx/exec"
 
 # ========================================================
 # DISEÑO UI/UX (CSS PERSONALIZADO)
@@ -284,7 +284,7 @@ def show_chat():
                     
     # Entrada de texto
     if prompt := st.chat_input(f"Escribe un mensaje en #{project_id}..."):
-        now = datetime.now()
+        now = datetime.now(timezone(timedelta(hours=-3)))
         fecha = now.strftime("%Y-%m-%d")
         hora = now.strftime("%H:%M:%S")
         
