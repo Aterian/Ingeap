@@ -281,6 +281,14 @@ def show_chat():
     
     # Renderizado en vivo de mensajes
     render_live_messages(project_id)
+    
+    # Prueba rápida de iframe
+    if st.button("🧪 Probar AppSheet flotante"):
+    @st.dialog("Prueba AppSheet", width="large")
+    def probar_iframe():
+        # Reemplaza por la URL de tu app de AppSheet
+        st.components.v1.iframe("https://www.appsheet.com/start/53fe6660-590a-41d0-953c-ed911a3d8770", height=600)
+    probar_iframe()
                     
     # Entrada de texto
     if prompt := st.chat_input(f"Escribe un mensaje en #{project_id}..."):
