@@ -254,11 +254,39 @@ def render_live_messages(project_id):
             </div>
         """, unsafe_allow_html=True)
 
+# ----------------------------------------------------
+# MODAL FLOTANTE (Definido fuera de show_chat)
+# ----------------------------------------------------
+@st.dialog("📱 Vista AppSheet del Proyecto", width="large")
+def modal_appsheet():
+    # ⚠️ REEMPLAZA ESTA URL POR LA DE TU APPSHEET REAL
+    url_appsheet = "https://www.appsheet.com/start/TU_APP_ID"
+    st.components.v1.iframe(url_appsheet, height=600, scrolling=True)
+
+
 # ========================================================
 # PANTALLA 3: CHAT DE PROYECTO
 # ========================================================
 def show_chat():
     project_id = st.session_state.current_project
+    
+    # BARRA SUPERIOR DE NAVEGACIÓN RÁPIDA
+    c_nav1, c_nav2, c_space = st.columns([1.2, 1.5, 5])
+    with c_nav1:
+        if st.button("🏠 Menú", key="top_menu_chat", type="secondary", use_container_width=True):
+            st.session_state.current_project = ""
+            st.rerun()
+    with c_nav2:
+        if st.button("🚪 Cerrar Sesión", key="top_logout_chat", type="secondary", use_container_width=True):
+            st.session_state.logged_in = False
+            st.session_state.session_email = ""
+            st.session_state.session_nombre = ""
+            st.session_state.session_area = ""
+            st.session_state.current_project = ""
+            st.rerun()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
     my_avatar = f"https://ui-avatars.com/api/?name={urllib.parse.quote(st.session_state.session_nombre)}&background=random&color=fff&size=100"
     
     st.markdown(f"""
@@ -279,20 +307,16 @@ def show_chat():
         </div>
     """, unsafe_allow_html=True)
     
+    # 🧪 BOTÓN DE PRUEBA APPSHEET
+    if st.button("🧪 Probar AppSheet Flotante", type="secondary"):
+        modal_appsheet()
+
     # Renderizado en vivo de mensajes
     render_live_messages(project_id)
-    
-    # Prueba rápida de iframe
-    if st.button("🧪 Probar AppSheet flotante"):
-    @st.dialog("Prueba AppSheet", width="large")
-    def probar_iframe():
-        # Reemplaza por la URL de tu app de AppSheet
-        st.components.v1.iframe("https://www.appsheet.com/start/53fe6660-590a-41d0-953c-ed911a3d8770", height=600)
-    probar_iframe()
                     
     # Entrada de texto
     if prompt := st.chat_input(f"Escribe un mensaje en #{project_id}..."):
-        now = datetime.now(timezone(timedelta(hours=-3)))
+        now = datetime.now()
         fecha = now.strftime("%Y-%m-%d")
         hora = now.strftime("%H:%M:%S")
         
