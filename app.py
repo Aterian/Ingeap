@@ -110,7 +110,7 @@ def process_url_auto_login():
 @st.cache_data(ttl=300, show_spinner=False)
 def api_get_projects(area):
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_projects", "area": area}, timeout=10)
+        res = requests.get(WEBHOOK_URL, params={"action": "get_projects", "area": area}, timeout=30)
         data = res.json()
         return data.get("projects", [])
     except Exception:
@@ -119,7 +119,7 @@ def api_get_projects(area):
 @st.cache_data(ttl=10, show_spinner=False)
 def api_get_chat(project_id):
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_chat", "id_proyecto": project_id}, timeout=10)
+        res = requests.get(WEBHOOK_URL, params={"action": "get_chat", "id_proyecto": project_id}, timeout=30)
         data = res.json()
         return data.get("messages", [])
     except Exception:
@@ -127,14 +127,14 @@ def api_get_chat(project_id):
 
 def api_post_message(payload):
     try:
-        requests.post(WEBHOOK_URL, json=payload, timeout=10)
+        requests.post(WEBHOOK_URL, json=payload, timeout=30)
     except Exception:
         pass
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def api_get_users():
     try:
-        res = requests.get(WEBHOOK_URL, params={"action": "get_users"}, timeout=10)
+        res = requests.get(WEBHOOK_URL, params={"action": "get_users"}, timeout=30)
         data = res.json()
         return data.get("users", [])
     except Exception:
